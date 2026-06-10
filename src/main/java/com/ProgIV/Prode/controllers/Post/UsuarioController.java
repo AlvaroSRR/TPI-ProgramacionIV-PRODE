@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ProgIV.Prode.features.dtos.request.UsuarioCreateRequestDTO;
 import com.ProgIV.Prode.features.dtos.response.UsuarioResponseDTO;
-import com.ProgIV.Prode.features.services.interfaces.IUsuarioCreateService;
+import com.ProgIV.Prode.features.services.interfaces.IUsuarioService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,8 +17,8 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
-public class CreateUsuarioController {
-    private final IUsuarioCreateService usuarioCreateService;
+public class UsuarioController {
+    private final IUsuarioService usuarioCreateService;
 
     @PostMapping
     public ResponseEntity<UsuarioResponseDTO> create(

@@ -1,14 +1,14 @@
 package com.ProgIV.Prode.features.dtos.response;
 
-public class EquipoResponse {
-    
+public class EquipoResponseDTO {
+
     private Long id;
     private String nombre;
 
-    public EquipoResponse() {
+    public EquipoResponseDTO() {
     }
 
-    public EquipoResponse(Long id, String nombre) {
+    public EquipoResponseDTO(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }

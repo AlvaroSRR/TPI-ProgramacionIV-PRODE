@@ -1,47 +1,59 @@
 package com.ProgIV.Prode.exceptions;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
         @ExceptionHandler(BusinessException.class)
-        public ResponseEntity<String> handleBusinessException(
-                        BusinessException ex) {
+        public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
+
+                ErrorResponse response = new ErrorResponse(
+                                "BUSINESS_ERROR",
+                                ex.getMessage(),
+                                HttpStatus.BAD_REQUEST.value(),
+                                System.currentTimeMillis());
 
                 return ResponseEntity
                                 .status(HttpStatus.BAD_REQUEST)
-                                .body(ex.getMessage());
+                                .body(response);
         }
 
         @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<Map<String, String>> handleValidationException(
-                        MethodArgumentNotValidException ex) {
+        public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
 
-                Map<String, String> errores = new HashMap<>();
-
-                ex.getBindingResult()
+                String message = ex.getBindingResult()
                                 .getFieldErrors()
-                                .forEach(error -> errores.put(
-                                                error.getField(),
-                                                error.getDefaultMessage()));
+                                .stream()
+                                .findFirst()
+                                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                                .orElse("Error de validación");
 
-                return ResponseEntity.badRequest().body(errores);
+                ErrorResponse response = new ErrorResponse(
+                                "VALIDATION_ERROR",
+                                message,
+                                HttpStatus.BAD_REQUEST.value(),
+                                System.currentTimeMillis());
+
+                return ResponseEntity
+                                .status(HttpStatus.BAD_REQUEST)
+                                .body(response);
         }
 
         @ExceptionHandler(Exception.class)
-        public ResponseEntity<String> handleException(Exception ex) {
+        public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+
+                ErrorResponse response = new ErrorResponse(
+                                "INTERNAL_ERROR",
+                                "Error interno del servidor",
+                                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                                System.currentTimeMillis());
 
                 return ResponseEntity
                                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .body("Error interno del servidor");
+                                .body(response);
         }
 }
