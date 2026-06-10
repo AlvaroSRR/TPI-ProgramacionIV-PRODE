@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,6 +40,7 @@ public class Usuario {
     private String password;
 
     @NotNull
+    @Enumerated(EnumType.STRING) //guardamos el rol como texto en la bd
     private Rol rol;
     
     private Long idGrupoPropio;
