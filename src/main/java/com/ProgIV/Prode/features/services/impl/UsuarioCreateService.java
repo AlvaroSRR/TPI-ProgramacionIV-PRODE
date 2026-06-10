@@ -10,13 +10,13 @@ import com.ProgIV.Prode.features.dtos.response.UsuarioResponseDTO;
 import com.ProgIV.Prode.features.mappers.UsuarioMapper;
 import com.ProgIV.Prode.features.models.Usuario;
 import com.ProgIV.Prode.features.repositories.UsuarioRepository;
-import com.ProgIV.Prode.features.services.interfaces.IUsuarioCreateService;
+import com.ProgIV.Prode.features.services.interfaces.IUsuarioService;
 
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class UsuarioCreateService implements IUsuarioCreateService {
+public class UsuarioCreateService implements IUsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
