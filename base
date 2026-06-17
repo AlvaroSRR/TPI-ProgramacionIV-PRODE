@@ -1,1 +1,38 @@
 base
+
+tareas
+- LOGIN
+- logear              [Listo]
+
+- POST
+-Registrar usuario    [Listo]
+-Registrar grupo      []
+-registrar equipo     [Listo]
+-Registrar Fecha      []
+-Registrar partido    []
+-Registrar prediccion []
+
+- GET
+-Datos usuario
+-Datos equipo
+-Datos Partido
+-Datos prediccion     []      
+-Datos fecha
+-Datos grupo
+
+-DELETE
+-equipo
+-partido
+-fecha
+-grupo
+
+- PATCH
+-usuario              [Listo]
+-equipo
+-prediccion
+-partido
+-grupo
+
+- REQUISITOS
+- Haseo password [listo]
+- control tiempo para pronostico
