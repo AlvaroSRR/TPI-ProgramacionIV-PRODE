@@ -1,0 +1,60 @@
+package com.ProgIV.Prode.features.services.impl.partido;
+
+import org.springframework.stereotype.Service;
+
+import com.ProgIV.Prode.features.dtos.request.PartidoCreateRequestDTO;
+import com.ProgIV.Prode.features.models.Equipo;
+import com.ProgIV.Prode.features.models.EstadoPartido;
+import com.ProgIV.Prode.features.models.Fecha;
+import com.ProgIV.Prode.features.models.Partido;
+import com.ProgIV.Prode.features.repositories.EquipoRepository;
+import com.ProgIV.Prode.features.repositories.FechaRepository;
+import com.ProgIV.Prode.features.repositories.PartidoRepository;
+import com.ProgIV.Prode.features.services.interfaces.partido.IPartidoCreateService;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class PartidoCreateService implements IPartidoCreateService {
+
+    private final PartidoRepository partidoRepository;
+    private final FechaRepository fechaRepository;
+    private final EquipoRepository equipoRepository;
+
+    @Override
+    public Partido crearPartido(PartidoCreateRequestDTO dto) {
+
+        // 1. validar equipos distintos
+        if (dto.getEquipoLocalId().equals(dto.getEquipoVisitanteId())) {
+            throw new RuntimeException("Los equipos no pueden ser iguales");
+        }
+
+        // 2. buscar fecha
+        Fecha fecha = fechaRepository.findById(dto.getFechaId())
+                .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+
+        // 3. buscar equipos
+        Equipo local = equipoRepository.findById(dto.getEquipoLocalId())
+                .orElseThrow(() -> new RuntimeException("Equipo local no existe"));
+
+        Equipo visitante = equipoRepository.findById(dto.getEquipoVisitanteId())
+                .orElseThrow(() -> new RuntimeException("Equipo visitante no existe"));
+
+        // 4. crear partido
+        Partido partido = new Partido();
+        partido.setFecha(fecha);
+        partido.setEquipoLocal(local);
+        partido.setEquipoVisitante(visitante);
+        partido.setHoraInicio(dto.getHoraInicio());
+
+        partido.setEstadoPartido(EstadoPartido.PorJugarse);
+
+
+        partido.setGolLocal(null);
+        partido.setGolVisitante(null);
+        partido.setResultado(null);
+
+        return partidoRepository.save(partido);
+    }
+}

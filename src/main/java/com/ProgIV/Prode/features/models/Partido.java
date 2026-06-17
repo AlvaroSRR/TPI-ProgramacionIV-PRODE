@@ -33,16 +33,16 @@ public class Partido {
     @JoinColumn(name = "idVisitante", nullable = false)
     private Equipo equipoVisitante;
 
-    @NotNull
+   
     private Integer golLocal;
 
-    @NotNull
+  
     private Integer golVisitante;
 
     @NotNull
     private EstadoPartido estadoPartido;
 
-    @NotNull
+    
     private String resultado;
     
     @ManyToOne

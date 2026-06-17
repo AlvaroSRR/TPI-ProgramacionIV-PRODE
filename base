@@ -6,32 +6,32 @@ tareas
 
 - POST
 -Registrar usuario    [Listo]
--Registrar grupo      []
+-Registrar grupo      [Listo]
 -registrar equipo     [Listo]
--Registrar Fecha      []
--Registrar partido    []
+-Registrar Fecha      [Listo]
+-Registrar partido    [Listo]
 -Registrar prediccion []
 
 - GET
--Datos usuario
--Datos equipo
--Datos Partido
+-Datos usuario        [Listo]
+-Datos equipo         [Listo]
+-Datos Partido        [Listo]
 -Datos prediccion     []      
--Datos fecha
--Datos grupo
+-Datos fecha          [Listo]
+-Datos grupo          [Listo]
 
 -DELETE
--equipo
--partido
--fecha
--grupo
+-equipo               [Listo]
+-partido              []
+-fecha                [Listo]
+-grupo                [Listo]
 
 - PATCH
 -usuario              [Listo]
--equipo
--prediccion
--partido
--grupo
+-equipo               [Listo]
+-prediccion           []
+-partido              []
+-grupo                [Listo]
 
 - REQUISITOS
 - Haseo password [listo]
