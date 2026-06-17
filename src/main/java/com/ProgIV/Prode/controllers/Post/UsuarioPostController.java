@@ -1,4 +1,4 @@
-package com.ProgIV.Prode.controllers.Put;
+package com.ProgIV.Prode.controllers.Post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
-public class UsuarioController {
+public class UsuarioPostController {
     private final IUsuarioCreateService usuarioCreateService;
 
     @PostMapping
