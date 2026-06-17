@@ -36,3 +36,11 @@ tareas
 - REQUISITOS
 - Haseo password [listo]
 - control tiempo para pronostico
+
+
+
+instalar dentro de la carpeta de front en cmd
+npm install -g pnpm
+
+ejecutar con comando
+pnpm dev
