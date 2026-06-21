@@ -1,6 +1,8 @@
 package com.ProgIV.Prode.features.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +22,9 @@ public class Fecha {
     
     @NotBlank
     private String nombre;
-    
+        
+    @Enumerated(EnumType.STRING)
+    private EstadoFecha estado = EstadoFecha.PROGRAMADA;
 
     private Boolean eliminado = false;
 }

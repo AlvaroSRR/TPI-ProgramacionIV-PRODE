@@ -2,6 +2,7 @@ package com.ProgIV.Prode.features.models;
 
 import java.time.OffsetDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,4 +52,7 @@ public class Partido {
 
     @NotNull
     private OffsetDateTime horaInicio; // formato UTC
+
+    @Column(nullable = false)
+    private boolean eliminado;
 }
