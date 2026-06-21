@@ -13,7 +13,6 @@ import com.ProgIV.Prode.features.services.interfaces.IAuthLoginService;
 
 import lombok.AllArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:5174") // arreglar esto
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
