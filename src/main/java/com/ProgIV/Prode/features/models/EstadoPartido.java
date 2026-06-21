@@ -1,5 +1,9 @@
 package com.ProgIV.Prode.features.models;
 
 public enum EstadoPartido {
-    PorJugarse, EnJuego, Finalizado
+
+    POR_JUGARSE, 
+    EN_JUEGO, 
+    FINALIZADO
+
 }

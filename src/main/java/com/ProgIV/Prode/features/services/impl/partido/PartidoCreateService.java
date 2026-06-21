@@ -48,7 +48,7 @@ public class PartidoCreateService implements IPartidoCreateService {
         partido.setEquipoVisitante(visitante);
         partido.setHoraInicio(dto.getHoraInicio());
 
-        partido.setEstadoPartido(EstadoPartido.PorJugarse);
+        partido.setEstadoPartido(EstadoPartido.POR_JUGARSE);
 
 
         partido.setGolLocal(null);
