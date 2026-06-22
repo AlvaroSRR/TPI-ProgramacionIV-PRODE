@@ -2,6 +2,10 @@ package com.ProgIV.Prode.features.services.impl.partido;
 
 import org.springframework.stereotype.Service;
 
+import com.ProgIV.Prode.exceptions.BusinessException;
+
+import com.ProgIV.Prode.exceptions.equipo.EquipoNoEncontradoException;
+import com.ProgIV.Prode.exceptions.fecha.FechaNoEncontradaException;
 import com.ProgIV.Prode.features.dtos.request.PartidoCreateRequestDTO;
 import com.ProgIV.Prode.features.models.Equipo;
 import com.ProgIV.Prode.features.models.EstadoPartido;
@@ -27,19 +31,19 @@ public class PartidoCreateService implements IPartidoCreateService {
 
         // 1. validar equipos distintos
         if (dto.getEquipoLocalId().equals(dto.getEquipoVisitanteId())) {
-            throw new RuntimeException("Los equipos no pueden ser iguales");
+            throw new BusinessException("El equipo local y el visitante no pueden ser el mismo");
         }
 
         // 2. buscar fecha
         Fecha fecha = fechaRepository.findById(dto.getFechaId())
-                .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+                .orElseThrow(() -> new FechaNoEncontradaException(dto.getFechaId()));
 
         // 3. buscar equipos
         Equipo local = equipoRepository.findById(dto.getEquipoLocalId())
-                .orElseThrow(() -> new RuntimeException("Equipo local no existe"));
+                .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoLocalId()));
 
         Equipo visitante = equipoRepository.findById(dto.getEquipoVisitanteId())
-                .orElseThrow(() -> new RuntimeException("Equipo visitante no existe"));
+                .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoVisitanteId()));
 
         // 4. crear partido
         Partido partido = new Partido();
@@ -47,10 +51,7 @@ public class PartidoCreateService implements IPartidoCreateService {
         partido.setEquipoLocal(local);
         partido.setEquipoVisitante(visitante);
         partido.setHoraInicio(dto.getHoraInicio());
-
         partido.setEstadoPartido(EstadoPartido.POR_JUGARSE);
-
-
         partido.setGolLocal(null);
         partido.setGolVisitante(null);
         partido.setResultado(null);
