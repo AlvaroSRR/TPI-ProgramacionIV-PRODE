@@ -17,26 +17,35 @@ public class PrediccionGetService implements IPrediccionGetService {
 
     private final PrediccionRepository prediccionRepository;
 
-
     @Override
     public List<Prediccion> obtenerPredicciones() {
 
         return prediccionRepository.findAll();
-
 
     }
   @Override
     public List<Prediccion> obtenerPrediccionesUsuario(Long usuarioId) {
 
         return prediccionRepository.findByUsuarioId(usuarioId);
-
     }
-
 
     @Override
     public List<Prediccion> obtenerPrediccionesPartido(Long partidoId) {
 
         return prediccionRepository.findByPartidoId(partidoId);
 
+    }
+
+    @Override
+    public List<Prediccion> obtenerPrediccionesPorUsuarioYFecha(
+            Long usuarioId,
+            Long fechaId
+    ) {
+
+        return prediccionRepository
+                .findByUsuarioIdAndPartidoFechaId(
+                        usuarioId,
+                        fechaId
+                );
     }
 }
