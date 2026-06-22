@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,14 +42,14 @@ public class Partido {
   
     private Integer golVisitante;
 
-    @NotNull
-    private EstadoPartido estadoPartido;
+    @Enumerated(EnumType.STRING)
+    private EstadoPartido estadoPartido = EstadoPartido.POR_JUGARSE;
 
     
     private String resultado;
     
     @ManyToOne
-    @JoinColumn(name = "idFecha", nullable = false)
+    @JoinColumn(name = "id_Fecha", nullable = false)
     private Fecha fecha;
 
     @NotNull
