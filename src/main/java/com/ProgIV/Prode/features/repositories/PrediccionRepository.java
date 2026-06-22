@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.models.Prediccion;
 
 public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
@@ -21,4 +22,6 @@ public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
         Long usuarioId,
         Long fechaId
     );
+
+    List<Prediccion> findByPartido(Partido partido);
 }

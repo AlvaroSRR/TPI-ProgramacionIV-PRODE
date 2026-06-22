@@ -20,4 +20,5 @@ public interface PartidoRepository extends JpaRepository<Partido, Long> {
             OffsetDateTime horaInicio
     );
 
+    List<Partido> findByEstadoPartido(EstadoPartido estadoPartido);
 }

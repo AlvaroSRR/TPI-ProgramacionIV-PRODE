@@ -28,11 +28,11 @@ public class PartidoUpdateService implements IPartidoUpdateService{
         }
 
         // Control para que no permita cargar resultados si el partido no comenzo
-        
-        // if (partido.getEstadoPartido() != EstadoPartido.EN_JUEGO) {
-        //     throw new RuntimeException(
-        //             "El partido debe estar EN_JUEGO para registrar el resultado");
-        // }
+
+        if (partido.getEstadoPartido() != EstadoPartido.EN_JUEGO) {
+            throw new RuntimeException(
+                    "El partido debe estar EN_JUEGO para registrar el resultado");
+        }
 
         partido.setGolLocal(dto.golLocal());
         partido.setGolVisitante(dto.golVisitante());

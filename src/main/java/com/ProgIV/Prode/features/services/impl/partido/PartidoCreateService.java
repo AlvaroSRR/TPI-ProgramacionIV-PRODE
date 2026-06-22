@@ -29,23 +29,19 @@ public class PartidoCreateService implements IPartidoCreateService {
     @Override
     public Partido crearPartido(PartidoCreateRequestDTO dto) {
 
-        // 1. validar equipos distintos
         if (dto.getEquipoLocalId().equals(dto.getEquipoVisitanteId())) {
             throw new BusinessException("El equipo local y el visitante no pueden ser el mismo");
         }
 
-        // 2. buscar fecha
         Fecha fecha = fechaRepository.findById(dto.getFechaId())
                 .orElseThrow(() -> new FechaNoEncontradaException(dto.getFechaId()));
 
-        // 3. buscar equipos
         Equipo local = equipoRepository.findById(dto.getEquipoLocalId())
                 .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoLocalId()));
 
         Equipo visitante = equipoRepository.findById(dto.getEquipoVisitanteId())
                 .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoVisitanteId()));
 
-        // 4. crear partido
         Partido partido = new Partido();
         partido.setFecha(fecha);
         partido.setEquipoLocal(local);

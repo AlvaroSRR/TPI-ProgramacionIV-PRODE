@@ -40,8 +40,12 @@ public class PartidoScheduler {
             if (partido.getGolVisitante() == null) {
                 partido.setGolVisitante(0);
             }
+            
         }
 
         partidoRepository.saveAll(partidos);
+
+        
     }
+
 }
