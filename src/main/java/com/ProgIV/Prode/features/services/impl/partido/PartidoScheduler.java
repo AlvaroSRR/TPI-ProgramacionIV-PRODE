@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PartidoScheduler {
+public class PartidoScheduler{
 
     private final PartidoRepository partidoRepository;
 
