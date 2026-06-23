@@ -6,6 +6,7 @@ import com.ProgIV.Prode.features.dtos.request.PartidoUpdateRequestDTO;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.repositories.PartidoRepository;
+import com.ProgIV.Prode.features.services.impl.prediccion.CalcularPuntosService;
 import com.ProgIV.Prode.features.services.interfaces.partido.IPartidoUpdateService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class PartidoUpdateService implements IPartidoUpdateService{
     
     private final PartidoRepository partidoRepository;
+    private final CalcularPuntosService calcularPuntosService;
 
     @Override
     public Partido actualizarResultado(PartidoUpdateRequestDTO dto) {
@@ -46,6 +48,7 @@ public class PartidoUpdateService implements IPartidoUpdateService{
             partido.setResultado("EMPATE");
         }
 
+        calcularPuntosService.calcularPuntos(partido);
         return partidoRepository.save(partido);
 }
 }
