@@ -8,23 +8,21 @@ import org.springframework.data.jpa.repository.Query;
 import com.ProgIV.Prode.features.dtos.response.RankingResponseDTO;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.models.Prediccion;
+import com.ProgIV.Prode.features.models.Usuario;
+
 
 public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
     boolean existsByPartidoId(Long partidoId);
 
-    Optional<Prediccion> findByUsuarioIdAndPartidoId(
-            Long usuarioId,
-            Long partidoId);
+    Optional<Prediccion> findByUsuarioAndPartido(Usuario usuario, Partido partido);
 
     List<Prediccion> findByUsuarioId(Long usuarioId);
 
     List<Prediccion> findByPartidoId(Long partidoId);
 
-    List<Prediccion> findByUsuarioIdAndPartidoFechaId(
-            Long usuarioId,
-            Long fechaId);
-
     List<Prediccion> findByPartido(Partido partido);
+
+    List<Prediccion> findByUsuarioIdAndPartidoFechaId(Long usuarioId, Long fechaId);
 
     @Query("""
                 SELECT new com.ProgIV.Prode.features.dtos.response.RankingResponseDTO(
