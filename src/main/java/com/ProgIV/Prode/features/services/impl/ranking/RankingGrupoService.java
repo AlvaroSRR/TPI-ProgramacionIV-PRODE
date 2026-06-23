@@ -6,18 +6,16 @@ import org.springframework.stereotype.Service;
 
 import com.ProgIV.Prode.features.dtos.response.RankingResponseDTO;
 import com.ProgIV.Prode.features.repositories.PrediccionRepository;
-import com.ProgIV.Prode.features.services.interfaces.ranking.IRankingGetService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RankingGetService implements IRankingGetService {
-
+public class RankingGrupoService {
+    
     private final PrediccionRepository prediccionRepository;
-
-    @Override
-    public List<RankingResponseDTO> obtenerRankingGlobal() {
-        return prediccionRepository.obtenerRankingGlobal();
+    
+    public List<RankingResponseDTO> obtenerRankingGrupo(Long grupoId) {
+        return prediccionRepository.obtenerRankingGrupo(grupoId);
     }
 }
