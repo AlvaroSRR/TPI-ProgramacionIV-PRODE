@@ -6,14 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.models.Prediccion;
+import com.ProgIV.Prode.features.models.Usuario;
 
 public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
     boolean existsByPartidoId(Long partidoId);
 
-    Optional<Prediccion> findByUsuarioIdAndPartidoId(
-            Long usuarioId,
-            Long partidoId
-    );
     List<Prediccion> findByUsuarioId(Long usuarioId);
 
     List<Prediccion> findByPartidoId(Long partidoId);
@@ -24,4 +21,6 @@ public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
     );
 
     List<Prediccion> findByPartido(Partido partido);
+
+    Optional<Prediccion> findByUsuarioAndPartido(Usuario usuario, Partido partido);
 }
