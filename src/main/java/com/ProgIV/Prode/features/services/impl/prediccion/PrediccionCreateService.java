@@ -4,8 +4,10 @@ import java.time.OffsetDateTime;
 
 import org.springframework.stereotype.Service;
 
+import com.ProgIV.Prode.exceptions.partido.PartidoNoEncontradoException;
+import com.ProgIV.Prode.exceptions.pronostico.PronosticoFueraDeTiempoException;
+import com.ProgIV.Prode.exceptions.usuario.UsuarioNoEncontradoException;
 import com.ProgIV.Prode.features.dtos.request.PrediccionCreateRequestDTO;
-import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.models.Prediccion;
 import com.ProgIV.Prode.features.models.Usuario;
@@ -28,47 +30,41 @@ public class PrediccionCreateService implements IPrediccionCreateService {
     public Prediccion guardarPrediccion(PrediccionCreateRequestDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new UsuarioNoEncontradoException(dto.getUsuarioId()));
 
         Partido partido = partidoRepository.findById(dto.getPartidoId())
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
+                .orElseThrow(() -> new PartidoNoEncontradoException(dto.getPartidoId()));
 
-        // RF5.1
-        if (partido.getEstadoPartido() != EstadoPartido.POR_JUGARSE) {
+        validarReglaBloqueo(partido);
 
-            throw new RuntimeException(
-                    "Solo se puede pronosticar partidos POR_JUGARSE");
-        }
-
-        OffsetDateTime limite =
-                partido.getHoraInicio().minusMinutes(30);
-
-        if (OffsetDateTime.now().isAfter(limite)) {
-
-            throw new RuntimeException(
-                    "El plazo para realizar predicciones ha expirado");
-        }
-
-        Prediccion prediccion =
-                prediccionRepository
-                        .findByUsuarioIdAndPartidoId(
-                                usuario.getId(),
-                                partido.getId())
-                        .orElse(null);
+        Prediccion prediccion = prediccionRepository
+                .findByUsuarioAndPartido(usuario, partido)
+                .orElse(null);
 
         if (prediccion == null) {
-
             prediccion = new Prediccion();
-
             prediccion.setUsuario(usuario);
             prediccion.setPartido(partido);
-            prediccion.setFechaPrediccion(
-                    OffsetDateTime.now());
+            prediccion.setFechaPrediccion(OffsetDateTime.now());
         }
 
         prediccion.setGolLocal(dto.getGolLocal());
         prediccion.setGolVisitante(dto.getGolVisitante());
 
         return prediccionRepository.save(prediccion);
+    }
+
+    private void validarReglaBloqueo(Partido partido) {
+
+        if (partido.getHoraInicio() == null) {
+            throw new IllegalStateException("El partido no tiene hora de inicio");
+        }
+
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime limite = partido.getHoraInicio().minusMinutes(30);
+
+        if (now.isAfter(limite)) {
+            throw new PronosticoFueraDeTiempoException();
+        }
     }
 }
