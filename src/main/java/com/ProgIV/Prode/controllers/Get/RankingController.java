@@ -28,4 +28,4 @@ public class RankingController {
             rankingGrupoService.obtenerRankingGrupo(grupoId)
         );
     }
-},
+}
