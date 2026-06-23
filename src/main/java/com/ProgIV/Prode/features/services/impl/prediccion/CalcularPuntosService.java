@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.models.Prediccion;
 import com.ProgIV.Prode.features.repositories.PrediccionRepository;
+import com.ProgIV.Prode.features.services.interfaces.prediccion.ICalcularPuntosService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CalcularPuntosService {
+public class CalcularPuntosService implements ICalcularPuntosService {
 
     private final PrediccionRepository prediccionRepository;
 
