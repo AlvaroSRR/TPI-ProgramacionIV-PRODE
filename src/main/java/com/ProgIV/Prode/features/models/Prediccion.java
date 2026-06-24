@@ -16,21 +16,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-    uniqueConstraints = {
-        @UniqueConstraint(
-            columnNames = {
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
                 "idUsuario",
                 "idPartido"
-            }
-        )
-    }
-)
+        })
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Prediccion {
- 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -57,5 +53,7 @@ public class Prediccion {
     private Boolean esTendencia = false;
 
     private Boolean esExacta = false;
+
+    private boolean puntosCalculados;
 
 }

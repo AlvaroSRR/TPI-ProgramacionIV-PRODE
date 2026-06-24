@@ -13,13 +13,21 @@ public class PrediccionResponseDTO {
 
     private Long id;
 
-    private Long usuarioId;
+    private String nombreUsuario;
+
     private Long partidoId;
 
+    private String estadoPartido;
+
     private Integer golLocal;
+
     private Integer golVisitante;
 
     private Integer puntosObtenidos;
+
+    private Boolean esTendencia;
+
+    private Boolean esExacta;
 
     private OffsetDateTime fechaPrediccion;
 }

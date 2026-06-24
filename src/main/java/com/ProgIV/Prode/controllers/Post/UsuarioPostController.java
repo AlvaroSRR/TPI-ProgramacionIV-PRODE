@@ -2,6 +2,7 @@ package com.ProgIV.Prode.controllers.Post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN')")
 public class UsuarioPostController {
     private final IUsuarioCreateService usuarioCreateService;
 

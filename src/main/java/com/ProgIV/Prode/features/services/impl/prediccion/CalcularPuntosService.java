@@ -17,60 +17,52 @@ public class CalcularPuntosService implements ICalcularPuntosService {
 
     private final PrediccionRepository prediccionRepository;
 
-
     public void calcularPuntos(Partido partido) {
 
-        List<Prediccion> predicciones =
-                prediccionRepository.findByPartido(partido);
+        // IDEMPOTENCIA (CLAVE)
+        if (partido.isPuntosCalculados()) {
+            return;
+        }
 
+        List<Prediccion> predicciones = prediccionRepository.findByPartido(partido);
 
-        for(Prediccion prediccion : predicciones) {
+        for (Prediccion prediccion : predicciones) {
 
             int puntos = 0;
 
+            //Resultado exacto
+            if (prediccion.getGolLocal().equals(partido.getGolLocal())
+                    && prediccion.getGolVisitante().equals(partido.getGolVisitante())) {
 
-            // Resultado exacto
-            if(
-                prediccion.getGolLocal().equals(partido.getGolLocal())
-                &&
-                prediccion.getGolVisitante().equals(partido.getGolVisitante())
-            ){
                 puntos = 3;
                 prediccion.setEsExacta(true);
             }
 
-            // Solo acertó ganador/empate
-            else if(
-                obtenerResultado(prediccion.getGolLocal(),
-                                 prediccion.getGolVisitante())
-                .equals(
-                obtenerResultado(partido.getGolLocal(),
-                                 partido.getGolVisitante()))
-            ){
+            // Resultado tendencia (ganador/empate)
+            else if (obtenerResultado(prediccion.getGolLocal(), prediccion.getGolVisitante())
+                    .equals(obtenerResultado(partido.getGolLocal(), partido.getGolVisitante()))) {
+
                 puntos = 1;
                 prediccion.setEsTendencia(true);
             }
 
-
             prediccion.setPuntosObtenidos(puntos);
-
         }
 
-
         prediccionRepository.saveAll(predicciones);
+
+        //MARCA COMO YA CALCULADO
+        partido.setPuntosCalculados(true);
     }
 
+    private String obtenerResultado(Integer local, Integer visitante) {
 
-
-    private String obtenerResultado(Integer local, Integer visitante){
-
-        if(local > visitante)
+        if (local > visitante)
             return "LOCAL";
 
-        if(local < visitante)
+        if (local < visitante)
             return "VISITANTE";
 
         return "EMPATE";
     }
-
 }

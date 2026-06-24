@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+
 public class UsuarioGetService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
