@@ -13,15 +13,14 @@ import com.ProgIV.Prode.features.services.interfaces.grupo.IGrupoGetService;
 import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
-public class GrupoGetService implements IGrupoGetService{
-    
+public class GrupoGetService implements IGrupoGetService {
+
     private final GrupoRepository grupoRepository;
     private final GrupoMapper grupoMapper;
 
     @Override
     public List<GrupoResponseDTO> getAll() {
-
-        return grupoRepository.findByActivoTrue()
+        return grupoRepository.findByActivoTrueWithUsuarios()
                 .stream()
                 .map(grupoMapper::toResponseDTO)
                 .toList();
@@ -29,8 +28,7 @@ public class GrupoGetService implements IGrupoGetService{
 
     @Override
     public GrupoResponseDTO getById(Long id) {
-
-        Grupo grupo = grupoRepository.findByIdAndActivoTrue(id)
+        Grupo grupo = grupoRepository.findByIdAndActivoTrueWithUsuarios(id)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
         return grupoMapper.toResponseDTO(grupo);
