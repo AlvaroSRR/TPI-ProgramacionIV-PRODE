@@ -1,6 +1,7 @@
 package com.ProgIV.Prode.controllers.Patch;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.ProgIV.Prode.features.dtos.request.PartidoUpdateRequestDTO;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/partidos")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN')")
 public class PartidoUpdateController {
 
     private final IPartidoUpdateService partidoUpdateService;

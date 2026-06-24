@@ -3,6 +3,7 @@ package com.ProgIV.Prode.controllers.Get;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/ranking")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+
 public class RankingGrupoGetController {
 
     private final RankingGrupoService rankingGrupoService;

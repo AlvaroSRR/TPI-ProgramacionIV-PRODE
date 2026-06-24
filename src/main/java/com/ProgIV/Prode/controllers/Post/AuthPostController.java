@@ -10,12 +10,12 @@ import com.ProgIV.Prode.features.dtos.request.LoginRequestDTO;
 import com.ProgIV.Prode.features.dtos.response.LoginResponseDTO;
 import com.ProgIV.Prode.features.services.interfaces.IAuthLoginService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
-public class AuthController {
+@RequiredArgsConstructor
+public class AuthPostController {
     private final IAuthLoginService authLoginService;
 
     @PostMapping("/login")
@@ -24,4 +24,5 @@ public class AuthController {
 
         return ResponseEntity.ok(authLoginService.login(dto));
     }
+    
 }

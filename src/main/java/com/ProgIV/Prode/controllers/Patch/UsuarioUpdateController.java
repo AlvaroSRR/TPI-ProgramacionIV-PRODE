@@ -1,6 +1,7 @@
 package com.ProgIV.Prode.controllers.Patch;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class UsuarioUpdateController {
     private final IUsuarioUpdateService usuarioUpdateService;
 

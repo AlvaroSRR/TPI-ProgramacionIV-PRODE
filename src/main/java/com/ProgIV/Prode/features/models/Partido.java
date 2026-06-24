@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -25,7 +24,7 @@ public class Partido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "idLocal", nullable = false)
@@ -36,18 +35,19 @@ public class Partido {
     @JoinColumn(name = "idVisitante", nullable = false)
     private Equipo equipoVisitante;
 
-   
     private Integer golLocal;
 
-  
     private Integer golVisitante;
 
     @Enumerated(EnumType.STRING)
     private EstadoPartido estadoPartido = EstadoPartido.POR_JUGARSE;
 
-    
     private String resultado;
-    
+
+    private boolean resultadoCargado;
+
+    private boolean puntosCalculados;
+
     @ManyToOne
     @JoinColumn(name = "id_Fecha", nullable = false)
     private Fecha fecha;
