@@ -4,28 +4,26 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ProgIV.Prode.features.dtos.response.RankingResponseDTO;
-import com.ProgIV.Prode.features.services.impl.ranking.RankingGrupoService;
+import com.ProgIV.Prode.features.services.interfaces.ranking.IRankingGetService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/ranking")
 @RequiredArgsConstructor
-public class RankingController {
+public class RankingGeneralGetController {
+    
+    private final IRankingGetService rankingGetService;
 
-    private final RankingGrupoService rankingGrupoService;
-
-    @GetMapping("/grupo/{grupoId}")
-    public ResponseEntity<List<RankingResponseDTO>> obtenerRankingGrupo(
-            @PathVariable Long grupoId) {
+    @GetMapping
+    public ResponseEntity<List<RankingResponseDTO>> obtenerRanking() {
 
         return ResponseEntity.ok(
-            rankingGrupoService.obtenerRankingGrupo(grupoId)
+                rankingGetService.obtenerRankingGlobal()
         );
     }
 }
