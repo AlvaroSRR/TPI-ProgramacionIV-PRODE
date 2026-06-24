@@ -22,4 +22,8 @@ public interface PartidoRepository extends JpaRepository<Partido, Long> {
 
     List<Partido> findByFechaId(Long fechaId);
     List<Partido> findByEstadoPartido(EstadoPartido estadoPartido);
+
+    boolean existsByEquipoLocalIdOrEquipoVisitanteId(
+        Long equipoLocalId,
+        Long equipoVisitanteId);
 }
