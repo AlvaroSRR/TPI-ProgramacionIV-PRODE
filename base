@@ -44,3 +44,9 @@ npm install -g pnpm
 
 ejecutar con comando
 pnpm dev
+
+
+
+ENDPOINT 
+
+http://localhost:8080/fechas/estado?estado=PROGRAMADA
