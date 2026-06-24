@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.repositories.PartidoRepository;
+import com.ProgIV.Prode.features.services.interfaces.fecha.IFechaEstadoUpdateService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PartidoScheduler{
 
     private final PartidoRepository partidoRepository;
+    private final IFechaEstadoUpdateService fechaEstadoUpdateService;
 
 
     @Scheduled(fixedRate = 60000) // cada 60 segundos
@@ -32,6 +34,7 @@ public class PartidoScheduler{
 
         for (Partido partido : partidos) {
 
+
             partido.setEstadoPartido(EstadoPartido.EN_JUEGO);
             if (partido.getGolLocal() == null) {
                 partido.setGolLocal(0);
@@ -40,6 +43,7 @@ public class PartidoScheduler{
             if (partido.getGolVisitante() == null) {
                 partido.setGolVisitante(0);
             }
+            fechaEstadoUpdateService.iniciarEstadoFecha(partido.getFecha().getId());
             
         }
 

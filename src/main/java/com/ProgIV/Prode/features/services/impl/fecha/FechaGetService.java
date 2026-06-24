@@ -16,6 +16,7 @@ public class FechaGetService implements IFechaGetService {
 
     private final FechaRepository fechaRepository;
 
+    // devuelve todas las fechas que no estén eliminadas y en el frontend se filtran por estado
     @Override
     public List<Fecha> listarFechas() {
         return fechaRepository.findAll()
