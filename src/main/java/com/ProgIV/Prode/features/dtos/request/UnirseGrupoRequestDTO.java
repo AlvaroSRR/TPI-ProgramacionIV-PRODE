@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class UnirseGrupoRequestDTO {
-    private String codigo;
+    private String codigoInvitacion;
 }
