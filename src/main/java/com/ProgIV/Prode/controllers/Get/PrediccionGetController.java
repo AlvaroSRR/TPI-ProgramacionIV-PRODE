@@ -44,12 +44,11 @@ public class PrediccionGetController {
         }
 
         @GetMapping("/usuario/{usuarioId}/fecha/{fechaId}")
-        public ResponseEntity<List<PrediccionResponseDTO>> obtenerPrediccionesPorUsuarioYFecha(
+        public ResponseEntity<List<PrediccionResponseDTO>> obtenerPrediccionesUsuario(
                         @PathVariable Long usuarioId,
                         @PathVariable Long fechaId) {
+
                 return ResponseEntity.ok(
-                                prediccionGetService.obtenerPrediccionesPorUsuarioYFecha(
-                                                usuarioId,
-                                                fechaId));
+                                prediccionGetService.obtenerPrediccionesUsuarioYFecha(usuarioId, fechaId));
         }
 }

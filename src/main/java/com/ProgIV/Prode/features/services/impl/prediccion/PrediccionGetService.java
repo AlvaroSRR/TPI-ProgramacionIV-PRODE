@@ -23,6 +23,7 @@ import com.ProgIV.Prode.features.services.interfaces.prediccion.IPrediccionGetSe
 
 import lombok.RequiredArgsConstructor;
 import java.time.Clock;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -69,17 +70,17 @@ public class PrediccionGetService implements IPrediccionGetService {
 
         List<Prediccion> predicciones;
 
-        //ADMIN
+        // ADMIN
         if (usuario.getRol() == Rol.ADMIN) {
             predicciones = prediccionRepository.findByPartidoId(partidoId);
         }
 
-        //PARTIDO FINALIZADO
+        // PARTIDO FINALIZADO
         else if (partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
             predicciones = prediccionRepository.findByPartidoId(partidoId);
         }
 
-        //OTROS CASOS
+        // OTROS CASOS
         else {
             OffsetDateTime limite = partido.getHoraInicio().minusMinutes(30);
             boolean bloqueado = OffsetDateTime.now(clock).isAfter(limite);
@@ -100,12 +101,11 @@ public class PrediccionGetService implements IPrediccionGetService {
     }
 
     @Override
-    public List<PrediccionResponseDTO> obtenerPrediccionesPorUsuarioYFecha(
-            Long usuarioId,
-            Long fechaId) {
+    public List<PrediccionResponseDTO> obtenerPrediccionesUsuarioYFecha(Long usuarioId, Long fechaId) {
 
+        OffsetDateTime ahora = OffsetDateTime.now(clock);  
         return prediccionRepository
-                .findByUsuarioIdAndPartidoFechaId(usuarioId, fechaId)
+                .findPrediccionesUsuario(usuarioId, fechaId, ahora)
                 .stream()
                 .map(prediccionMapper::toDTO)
                 .toList();

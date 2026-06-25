@@ -12,5 +12,5 @@ public interface IPrediccionGetService {
 
     List<PrediccionResponseDTO> obtenerPrediccionesPartido(Long partidoId);
 
-    List<PrediccionResponseDTO> obtenerPrediccionesPorUsuarioYFecha(Long usuarioId, Long fechaId);
+    List<PrediccionResponseDTO> obtenerPrediccionesUsuarioYFecha(Long usuarioId, Long fechaId);
 }

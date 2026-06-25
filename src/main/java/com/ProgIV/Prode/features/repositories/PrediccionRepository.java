@@ -1,5 +1,6 @@
 package com.ProgIV.Prode.features.repositories;
 
+import java.time.OffsetDateTime;
 import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,7 +26,7 @@ public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
 
     List<Prediccion> findByUsuarioIdAndPartidoFechaId(Long usuarioId, Long fechaId);
 
-    //NUEVO: filtrado por estado
+    // NUEVO: filtrado por estado
     List<Prediccion> findByPartido_EstadoPartido(EstadoPartido estadoPartido);
 
     List<Prediccion> findByUsuarioIdAndPartido_EstadoPartido(Long usuarioId, EstadoPartido estadoPartido);
@@ -60,4 +61,17 @@ public interface PrediccionRepository extends JpaRepository<Prediccion, Long> {
                 ORDER BY COALESCE(SUM(p.puntosObtenidos), 0) DESC
             """)
     List<RankingResponseDTO> obtenerRankingGrupo(@Param("grupoId") Long grupoId);
+
+    @Query(value = """
+                SELECT p.*
+                FROM prediccion p
+                JOIN partido pa ON pa.id = p.id_partido
+                WHERE p.id_usuario = :usuarioId
+                  AND pa.id_fecha = :fechaId
+                  AND pa.hora_inicio - INTERVAL '30 minutes' < :ahora
+            """, nativeQuery = true)
+    List<Prediccion> findPrediccionesUsuario(
+            @Param("usuarioId") Long usuarioId,
+            @Param("fechaId") Long fechaId,
+            @Param("ahora") OffsetDateTime ahora);
 }
