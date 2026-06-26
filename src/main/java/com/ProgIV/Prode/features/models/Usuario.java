@@ -48,6 +48,6 @@ public class Usuario {
 
     // Relación con grupos
     @ManyToMany
-    @JoinTable(name = "usuarioXgrupo", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
+    @JoinTable(name = "usuario_xgrupo", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "grupo_id"))
     private Set<Grupo> grupos = new HashSet<>();
 }

@@ -29,13 +29,11 @@ public class Grupo {
 
     @NotNull
     private String codigoInvitacion;
-    
+
     @NotNull
     private Boolean activo = true;
 
     // Relación con usuarios
-    @ManyToMany
-    @JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "grupo_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    @ManyToMany(mappedBy = "grupos")
     private Set<Usuario> usuarios = new HashSet<>();
-
 }

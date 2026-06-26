@@ -11,18 +11,26 @@ import com.ProgIV.Prode.features.repositories.GrupoRepository;
 import com.ProgIV.Prode.features.services.interfaces.grupo.IGrupoGetService;
 
 import lombok.AllArgsConstructor;
+
 @Service
 @AllArgsConstructor
-public class GrupoGetService implements IGrupoGetService{
-    
+public class GrupoGetService implements IGrupoGetService {
+
     private final GrupoRepository grupoRepository;
     private final GrupoMapper grupoMapper;
 
     @Override
     public List<GrupoResponseDTO> getAll() {
 
-        return grupoRepository.findByActivoTrue()
-                .stream()
+        List<Grupo> grupos = grupoRepository.findByActivoTrue();
+
+        for (Grupo grupo : grupos) {
+            System.out.println(
+                    "Grupo " + grupo.getId() +
+                            " -> usuarios: " + grupo.getUsuarios().size());
+        }
+
+        return grupos.stream()
                 .map(grupoMapper::toResponseDTO)
                 .toList();
     }
