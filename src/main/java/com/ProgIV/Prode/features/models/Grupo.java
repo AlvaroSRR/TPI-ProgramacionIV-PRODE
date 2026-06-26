@@ -38,5 +38,4 @@ public class Grupo {
     // Relación con usuarios
     @ManyToMany(mappedBy = "grupos")
     private Set<Usuario> usuarios = new HashSet<>();
-
 }

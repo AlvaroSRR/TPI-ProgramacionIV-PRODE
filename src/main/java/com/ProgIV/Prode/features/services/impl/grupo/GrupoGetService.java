@@ -11,6 +11,7 @@ import com.ProgIV.Prode.features.repositories.GrupoRepository;
 import com.ProgIV.Prode.features.services.interfaces.grupo.IGrupoGetService;
 
 import lombok.AllArgsConstructor;
+
 @Service
 @AllArgsConstructor
 public class GrupoGetService implements IGrupoGetService {
@@ -20,7 +21,8 @@ public class GrupoGetService implements IGrupoGetService {
 
     @Override
     public List<GrupoResponseDTO> getAll() {
-        return grupoRepository.findByActivoTrueWithUsuarios()
+
+        return grupoRepository.findByActivoTrue()
                 .stream()
                 .map(grupoMapper::toResponseDTO)
                 .toList();
