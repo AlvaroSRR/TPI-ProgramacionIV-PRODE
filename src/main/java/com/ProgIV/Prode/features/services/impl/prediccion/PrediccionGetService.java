@@ -35,10 +35,18 @@ public class PrediccionGetService implements IPrediccionGetService {
     private final Clock clock;
 
     @Override
-    public List<PrediccionResponseDTO> obtenerPredicciones() {
-        return prediccionRepository
-                .findByPartido_EstadoPartido(EstadoPartido.FINALIZADO)
-                .stream()
+    public List<PrediccionResponseDTO> obtenerPredicciones(EstadoPartido estado) {
+
+        List<Prediccion> predicciones;
+
+        if (estado != null) {
+            predicciones = prediccionRepository
+                    .findByPartido_EstadoPartido(estado);
+        } else {
+            predicciones = prediccionRepository.findAll();
+        }
+
+        return predicciones.stream()
                 .map(prediccionMapper::toDTO)
                 .toList();
     }
@@ -69,17 +77,17 @@ public class PrediccionGetService implements IPrediccionGetService {
 
         List<Prediccion> predicciones;
 
-        //ADMIN
+        // ADMIN
         if (usuario.getRol() == Rol.ADMIN) {
             predicciones = prediccionRepository.findByPartidoId(partidoId);
         }
 
-        //PARTIDO FINALIZADO
+        // PARTIDO FINALIZADO
         else if (partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
             predicciones = prediccionRepository.findByPartidoId(partidoId);
         }
 
-        //OTROS CASOS
+        // OTROS CASOS
         else {
             OffsetDateTime limite = partido.getHoraInicio().minusMinutes(30);
             boolean bloqueado = OffsetDateTime.now(clock).isAfter(limite);
@@ -100,12 +108,11 @@ public class PrediccionGetService implements IPrediccionGetService {
     }
 
     @Override
-    public List<PrediccionResponseDTO> obtenerPrediccionesPorUsuarioYFecha(
-            Long usuarioId,
-            Long fechaId) {
+    public List<PrediccionResponseDTO> obtenerPrediccionesUsuarioYFecha(Long usuarioId, Long fechaId) {
 
+        OffsetDateTime ahora = OffsetDateTime.now(clock);  
         return prediccionRepository
-                .findByUsuarioIdAndPartidoFechaId(usuarioId, fechaId)
+                .findPrediccionesUsuario(usuarioId, fechaId, ahora)
                 .stream()
                 .map(prediccionMapper::toDTO)
                 .toList();
