@@ -29,22 +29,23 @@ public class FechaEstadoUpdateService implements IFechaEstadoUpdateService {
                 fecha.setEstado(EstadoFecha.EN_JUEGO);
                 fechaRepository.save(fecha);
         }
-
+        
         @Override
         public void finalizarEstadoFecha(Long id) {
 
-                List<Partido> partidos = partidoRepository.findByFechaId(id);
+        List<Partido> partidos = partidoRepository.findByFechaId(id);
 
-                for (Partido partido : partidos) {
-                        if (partido.getEstadoPartido() != EstadoPartido.FINALIZADO) {
-                                throw new RuntimeException(
-                                        "No se puede finalizar la fecha, hay partidos que no han finalizado");
-                        }
-                }
-                Fecha fecha = fechaRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+        boolean todosFinalizados = partidos.stream()
+                .allMatch(partido -> partido.getEstadoPartido() == EstadoPartido.FINALIZADO);
 
-                fecha.setEstado(EstadoFecha.FINALIZADA);
-                fechaRepository.save(fecha);
+        if (!todosFinalizados) {
+                return; // No hace nada, la fecha sigue igual
+        }
+
+        Fecha fecha = fechaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+
+        fecha.setEstado(EstadoFecha.FINALIZADA);
+        fechaRepository.save(fecha);
         }
 }

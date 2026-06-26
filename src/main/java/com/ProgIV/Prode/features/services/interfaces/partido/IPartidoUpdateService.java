@@ -6,6 +6,6 @@ import com.ProgIV.Prode.features.models.Partido;
 
 public interface IPartidoUpdateService {
     
-    Partido actualizarResultado(PartidoUpdateRequestDTO dto);
+    // Partido actualizarResultado(PartidoUpdateRequestDTO dto);
     Partido actualizar(Long id, PartidoUpdateDatosRequestDTO dto);
 }

@@ -22,23 +22,23 @@ public class PartidoUpdateController {
 
     private final IPartidoUpdateService partidoUpdateService;
 
-    @PutMapping
-    public ResponseEntity<PartidoResponseDTO> update(
-            @Valid @RequestBody PartidoUpdateRequestDTO dto) {
+    // @PutMapping
+    // public ResponseEntity<PartidoResponseDTO> update(
+    //         @Valid @RequestBody PartidoUpdateRequestDTO dto) {
 
-        Partido partidoActualizado = partidoUpdateService.actualizarResultado(dto);
+    //     Partido partidoActualizado = partidoUpdateService.actualizarResultado(dto);
 
-        PartidoResponseDTO response = PartidoResponseDTO.builder()
-                .partidoId(partidoActualizado.getId())
-                .equipoLocal(partidoActualizado.getEquipoLocal())
-                .equipoVisitante(partidoActualizado.getEquipoVisitante())
-                .golLocal(partidoActualizado.getGolLocal())
-                .golVisitante(partidoActualizado.getGolVisitante())
-                .resultado(partidoActualizado.getResultado())
-                .build();
+    //     PartidoResponseDTO response = PartidoResponseDTO.builder()
+    //             .partidoId(partidoActualizado.getId())
+    //             .equipoLocal(partidoActualizado.getEquipoLocal())
+    //             .equipoVisitante(partidoActualizado.getEquipoVisitante())
+    //             .golLocal(partidoActualizado.getGolLocal())
+    //             .golVisitante(partidoActualizado.getGolVisitante())
+    //             .resultado(partidoActualizado.getResultado())
+    //             .build();
 
-        return ResponseEntity.ok(response);
-    }
+    //     return ResponseEntity.ok(response);
+    // }
 
     @PatchMapping("/{id}")
     public ResponseEntity<PartidoUpdateResponseDTO> actualizar(

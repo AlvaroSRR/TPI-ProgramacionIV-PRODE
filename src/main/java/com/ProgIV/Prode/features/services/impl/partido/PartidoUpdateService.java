@@ -26,45 +26,45 @@ import lombok.RequiredArgsConstructor;
 public class PartidoUpdateService implements IPartidoUpdateService {
 
     private final PartidoRepository partidoRepository;
-    private final ICalcularPuntosService calcularPuntosService;
-    private final IFechaEstadoUpdateService fechaEstadoUpdateService;
+    // private final ICalcularPuntosService calcularPuntosService;
+    // private final IFechaEstadoUpdateService fechaEstadoUpdateService;
     private final EquipoRepository equipoRepository;
     private final FechaRepository fechaRepository;
 
-    @Override
-    public Partido actualizarResultado(PartidoUpdateRequestDTO dto) {
+    // @Override
+    // public Partido actualizarResultado(PartidoUpdateRequestDTO dto) {
 
-        Partido partido = partidoRepository.findById(dto.partidoId())
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
+    //     Partido partido = partidoRepository.findById(dto.partidoId())
+    //             .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
 
-        if (partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
-            throw new RuntimeException(
-                    "Solo se pueden registrar resultados en partidos no finalizados");
-        }
+    //     if (partido.getEstadoPartido() == EstadoPartido.FINALIZADO) {
+    //         throw new RuntimeException(
+    //                 "Solo se pueden registrar resultados en partidos no finalizados");
+    //     }
 
-        // Control para que no permita cargar resultados si el partido no comenzo
+    //     // Control para que no permita cargar resultados si el partido no comenzo
 
-        if (partido.getEstadoPartido() != EstadoPartido.EN_JUEGO) {
-            throw new RuntimeException(
-                    "El partido debe estar EN_JUEGO para registrar el resultado");
-        }
+    //     if (partido.getEstadoPartido() != EstadoPartido.EN_JUEGO) {
+    //         throw new RuntimeException(
+    //                 "El partido debe estar EN_JUEGO para registrar el resultado");
+    //     }
 
-        partido.setGolLocal(dto.golLocal());
-        partido.setGolVisitante(dto.golVisitante());
-        partido.setEstadoPartido(EstadoPartido.FINALIZADO);
+    //     partido.setGolLocal(dto.golLocal());
+    //     partido.setGolVisitante(dto.golVisitante());
+    //     partido.setEstadoPartido(EstadoPartido.FINALIZADO);
 
-        if (dto.golLocal() > dto.golVisitante()) {
-            partido.setResultado("LOCAL");
-        } else if (dto.golLocal() < dto.golVisitante()) {
-            partido.setResultado("VISITANTE");
-        } else {
-            partido.setResultado("EMPATE");
-        }
+    //     if (dto.golLocal() > dto.golVisitante()) {
+    //         partido.setResultado("LOCAL");
+    //     } else if (dto.golLocal() < dto.golVisitante()) {
+    //         partido.setResultado("VISITANTE");
+    //     } else {
+    //         partido.setResultado("EMPATE");
+    //     }
 
-        fechaEstadoUpdateService.finalizarEstadoFecha(partido.getFecha().getId());
-        calcularPuntosService.calcularPuntos(partido);
-        return partidoRepository.save(partido);
-    }
+    //     fechaEstadoUpdateService.finalizarEstadoFecha(partido.getFecha().getId());
+    //     calcularPuntosService.calcularPuntos(partido);
+    //     return partidoRepository.save(partido);
+    // }
 
     @Override
     public Partido actualizar(Long id, PartidoUpdateDatosRequestDTO dto) {
@@ -87,7 +87,7 @@ public class PartidoUpdateService implements IPartidoUpdateService {
 
         Equipo visitante = equipoRepository.findById(dto.getEquipoVisitanteId())
                 .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoVisitanteId()));
-                
+
         partido.setEquipoLocal(local);
         partido.setEquipoVisitante(visitante);
         partido.setFecha(fecha);
