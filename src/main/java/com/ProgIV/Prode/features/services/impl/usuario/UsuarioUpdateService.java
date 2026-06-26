@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+
 public class UsuarioUpdateService implements IUsuarioUpdateService {
 
     private final UsuarioRepository usuarioRepository;

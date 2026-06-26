@@ -8,6 +8,7 @@ import com.ProgIV.Prode.exceptions.usuario.UsuarioYaExisteException;
 import com.ProgIV.Prode.features.dtos.request.UsuarioCreateRequestDTO;
 import com.ProgIV.Prode.features.dtos.response.UsuarioResponseDTO;
 import com.ProgIV.Prode.features.mappers.UsuarioMapper;
+import com.ProgIV.Prode.features.models.Rol;
 import com.ProgIV.Prode.features.models.Usuario;
 import com.ProgIV.Prode.features.repositories.UsuarioRepository;
 import com.ProgIV.Prode.features.services.interfaces.usuario.IUsuarioCreateService;
@@ -32,12 +33,12 @@ public class UsuarioCreateService implements IUsuarioCreateService {
             throw new EmailYaRegistradoException(dto.getEmail());
         }
 
-        Usuario usuario = usuarioMapper.toEntity(dto, passwordEncoder.encode(dto.getPassword()));
+       Usuario usuario = usuarioMapper.toEntity(dto, passwordEncoder.encode(dto.getPassword()));
 
-        Usuario guardado = usuarioRepository.save(usuario);
-        
-        return usuarioMapper.toResponseDTO(guardado);
+        usuario.setRol(Rol.USER);
+        usuario.setActivo(true);
 
+        return usuarioMapper.toResponseDTO(usuarioRepository.save(usuario));
     }
 
 }

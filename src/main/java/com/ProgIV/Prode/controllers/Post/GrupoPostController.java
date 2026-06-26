@@ -2,6 +2,7 @@ package com.ProgIV.Prode.controllers.Post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/grupos")
 @AllArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class GrupoPostController {
 
     private final IGrupoCreateService grupoCreateService;

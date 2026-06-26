@@ -22,23 +22,15 @@ public class GrupoGetService implements IGrupoGetService {
     @Override
     public List<GrupoResponseDTO> getAll() {
 
-        List<Grupo> grupos = grupoRepository.findByActivoTrue();
-
-        for (Grupo grupo : grupos) {
-            System.out.println(
-                    "Grupo " + grupo.getId() +
-                            " -> usuarios: " + grupo.getUsuarios().size());
-        }
-
-        return grupos.stream()
+        return grupoRepository.findByActivoTrue()
+                .stream()
                 .map(grupoMapper::toResponseDTO)
                 .toList();
     }
 
     @Override
     public GrupoResponseDTO getById(Long id) {
-
-        Grupo grupo = grupoRepository.findByIdAndActivoTrue(id)
+        Grupo grupo = grupoRepository.findByIdAndActivoTrueWithUsuarios(id)
                 .orElseThrow(() -> new RuntimeException("Grupo no encontrado"));
 
         return grupoMapper.toResponseDTO(grupo);

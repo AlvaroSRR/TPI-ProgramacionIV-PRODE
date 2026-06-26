@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PrediccionCreateRequestDTO {
+public class ResultadoPartidoRequestDTO {
 
     @NotNull
     private Long partidoId;
@@ -14,5 +14,4 @@ public class PrediccionCreateRequestDTO {
 
     @NotNull
     private Integer golVisitante;
-
 }
