@@ -10,6 +10,7 @@ import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.repositories.PartidoRepository;
 import com.ProgIV.Prode.features.services.impl.prediccion.CalcularPuntosService;
+import com.ProgIV.Prode.features.services.interfaces.fecha.IFechaEstadoUpdateService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +20,7 @@ public class PartidoResultadoService {
 
     private final PartidoRepository partidoRepository;
     private final CalcularPuntosService calcularPuntosService;
+    private final IFechaEstadoUpdateService estadoFecha;
 
     public void cargarResultado(ResultadoPartidoRequestDTO dto) {
 
@@ -46,8 +48,9 @@ public class PartidoResultadoService {
         calcularPuntosService.calcularPuntos(partido);
 
         //FINALIZAR FECHA
-        partido.getFecha().setEstado(EstadoFecha.FINALIZADA);
+              // estadoFecha.finalizarEstadoFecha(partido.getFecha().getId());
 
         partidoRepository.save(partido);
+
     }
 }
