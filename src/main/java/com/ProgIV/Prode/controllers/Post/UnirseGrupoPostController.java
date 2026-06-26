@@ -1,6 +1,7 @@
 package com.ProgIV.Prode.controllers.Post;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/grupos")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('USER')")
 public class UnirseGrupoPostController {
 
     private final GrupoJoinService grupoJoinService;

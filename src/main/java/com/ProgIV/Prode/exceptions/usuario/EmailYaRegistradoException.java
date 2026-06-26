@@ -6,4 +6,7 @@ public class EmailYaRegistradoException extends BusinessException{
     public EmailYaRegistradoException(String email) {
         super("El email ya se encuentra registrado: " + email);
     }
+    public EmailYaRegistradoException() {
+        super("El email ya se encuentra registrado");
+    }
 }

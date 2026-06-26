@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ProgIV.Prode.features.dtos.request.UsuarioCreateRequestDTO;
+import com.ProgIV.Prode.features.dtos.response.ApiResponse;
 import com.ProgIV.Prode.features.dtos.response.UsuarioResponseDTO;
 import com.ProgIV.Prode.features.services.interfaces.usuario.IUsuarioCreateService;
 
@@ -23,11 +24,13 @@ public class UsuarioPostController {
     private final IUsuarioCreateService usuarioCreateService;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> create(
+    public ResponseEntity<ApiResponse<UsuarioResponseDTO>> create(
             @Valid @RequestBody UsuarioCreateRequestDTO dto) {
+
+        UsuarioResponseDTO usuario = usuarioCreateService.create(dto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(usuarioCreateService.create(dto));
+                .body(new ApiResponse<>("Usuario creado correctamente", usuario));
     }
 }

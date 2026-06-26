@@ -19,8 +19,8 @@ public class EquipoDeleteController {
     private final IEquipoDeleteService equipoDeleteService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         equipoDeleteService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Equipo eliminado correctamente");
     }
 }

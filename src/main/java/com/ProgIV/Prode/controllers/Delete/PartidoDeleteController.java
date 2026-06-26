@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ProgIV.Prode.features.dtos.response.ApiResponse;
 import com.ProgIV.Prode.features.services.interfaces.partido.IPartidoDeleteService;
 
 import lombok.AllArgsConstructor;
@@ -20,10 +21,11 @@ public class PartidoDeleteController {
     private final IPartidoDeleteService partidoDeleteService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
         partidoDeleteService.eliminarPartido(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new ApiResponse<>("Partido eliminado correctamente", null));
     }
 }

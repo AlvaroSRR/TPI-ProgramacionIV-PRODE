@@ -7,6 +7,8 @@ import com.ProgIV.Prode.exceptions.BusinessException;
 import com.ProgIV.Prode.exceptions.equipo.EquipoNoEncontradoException;
 import com.ProgIV.Prode.exceptions.fecha.FechaNoEncontradaException;
 import com.ProgIV.Prode.features.dtos.request.PartidoCreateRequestDTO;
+import com.ProgIV.Prode.features.dtos.response.PartidoResponseDTO;
+import com.ProgIV.Prode.features.mappers.PartidoMapper;
 import com.ProgIV.Prode.features.models.Equipo;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Fecha;
@@ -25,22 +27,23 @@ public class PartidoCreateService implements IPartidoCreateService {
     private final PartidoRepository partidoRepository;
     private final FechaRepository fechaRepository;
     private final EquipoRepository equipoRepository;
+    private final PartidoMapper partidoMapper;
 
     @Override
-    public Partido crearPartido(PartidoCreateRequestDTO dto) {
+    public PartidoResponseDTO crearPartido(PartidoCreateRequestDTO dto) {
 
         if (dto.getEquipoLocalId().equals(dto.getEquipoVisitanteId())) {
-            throw new BusinessException("El equipo local y el visitante no pueden ser el mismo");
+            throw new RuntimeException("El equipo local y visitante no pueden ser el mismo");
         }
 
         Fecha fecha = fechaRepository.findById(dto.getFechaId())
-                .orElseThrow(() -> new FechaNoEncontradaException(dto.getFechaId()));
+                .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
 
         Equipo local = equipoRepository.findById(dto.getEquipoLocalId())
-                .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoLocalId()));
+                .orElseThrow(() -> new RuntimeException("Equipo local no encontrado"));
 
         Equipo visitante = equipoRepository.findById(dto.getEquipoVisitanteId())
-                .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoVisitanteId()));
+                .orElseThrow(() -> new RuntimeException("Equipo visitante no encontrado"));
 
         Partido partido = new Partido();
         partido.setFecha(fecha);
@@ -51,7 +54,12 @@ public class PartidoCreateService implements IPartidoCreateService {
         partido.setGolLocal(null);
         partido.setGolVisitante(null);
         partido.setResultado(null);
+        partido.setResultadoCargado(false);
+        partido.setPuntosCalculados(false);
+        partido.setEliminado(false);
 
-        return partidoRepository.save(partido);
+        Partido saved = partidoRepository.save(partido);
+
+        return partidoMapper.toDTO(saved);
     }
 }

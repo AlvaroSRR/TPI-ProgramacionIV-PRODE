@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.ProgIV.Prode.features.dtos.request.GrupoCreateRequestDTO;
+import com.ProgIV.Prode.features.dtos.response.ApiResponse;
 import com.ProgIV.Prode.features.dtos.response.GrupoResponseDTO;
 import com.ProgIV.Prode.features.services.interfaces.grupo.IGrupoCreateService;
 
@@ -23,13 +24,13 @@ public class GrupoPostController {
     private final IGrupoCreateService grupoCreateService;
 
     @PostMapping
-    public ResponseEntity<GrupoResponseDTO> create(
+    public ResponseEntity<ApiResponse<GrupoResponseDTO>> create(
             @Valid @RequestBody GrupoCreateRequestDTO dto) {
 
         GrupoResponseDTO response = grupoCreateService.create(dto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(response);
+                .body(new ApiResponse<>("Grupo creado correctamente", response));
     }
 }

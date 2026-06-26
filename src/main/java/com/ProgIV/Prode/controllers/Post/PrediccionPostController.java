@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.ProgIV.Prode.features.dtos.request.PrediccionCreateRequestDTO;
+import com.ProgIV.Prode.features.dtos.response.ApiResponse;
 import com.ProgIV.Prode.features.dtos.response.PrediccionResponseDTO;
 import com.ProgIV.Prode.features.mappers.PrediccionMapper;
 import com.ProgIV.Prode.features.models.Prediccion;
@@ -22,10 +23,14 @@ public class PrediccionPostController {
         private final PrediccionMapper mapper;
 
         @PostMapping
-        public ResponseEntity<PrediccionResponseDTO> crear(@RequestBody PrediccionCreateRequestDTO dto) {
+        public ResponseEntity<ApiResponse<PrediccionResponseDTO>> crear(
+                        @RequestBody PrediccionCreateRequestDTO dto) {
 
                 Prediccion prediccion = service.guardarPrediccion(dto);
 
-                return ResponseEntity.ok(mapper.toDTO(prediccion));
+                return ResponseEntity.ok(
+                                new ApiResponse<>(
+                                                "Predicción guardada correctamente",
+                                                mapper.toDTO(prediccion)));
         }
 }

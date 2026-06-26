@@ -2,6 +2,7 @@ package com.ProgIV.Prode.features.services.impl.partido;
 
 import org.springframework.stereotype.Service;
 
+import com.ProgIV.Prode.exceptions.partido.PartidoNoEncontradoException;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.repositories.PartidoRepository;
@@ -21,7 +22,7 @@ public class PartidoDeleteService implements IPartidoDeleteService {
     public void eliminarPartido(Long id) {
 
         Partido partido = partidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
+                .orElseThrow(() -> new PartidoNoEncontradoException(id));
 
         if (partido.getEstadoPartido() != EstadoPartido.POR_JUGARSE) {
             throw new RuntimeException(

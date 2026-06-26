@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ProgIV.Prode.features.dtos.response.ApiResponse;
 import com.ProgIV.Prode.features.services.interfaces.usuario.IUsuarioDeleteService;
 
 import lombok.AllArgsConstructor;
@@ -19,10 +20,11 @@ public class UsuarioDeleteController {
     private final IUsuarioDeleteService usuarioDeleteService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
 
         usuarioDeleteService.delete(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new ApiResponse<>("Usuario eliminado correctamente", null));
     }
 }
