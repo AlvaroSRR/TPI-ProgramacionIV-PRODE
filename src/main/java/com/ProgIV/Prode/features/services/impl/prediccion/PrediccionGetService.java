@@ -23,7 +23,6 @@ import com.ProgIV.Prode.features.services.interfaces.prediccion.IPrediccionGetSe
 
 import lombok.RequiredArgsConstructor;
 import java.time.Clock;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +35,18 @@ public class PrediccionGetService implements IPrediccionGetService {
     private final Clock clock;
 
     @Override
-    public List<PrediccionResponseDTO> obtenerPredicciones() {
-        return prediccionRepository
-                .findByPartido_EstadoPartido(EstadoPartido.FINALIZADO)
-                .stream()
+    public List<PrediccionResponseDTO> obtenerPredicciones(EstadoPartido estado) {
+
+        List<Prediccion> predicciones;
+
+        if (estado != null) {
+            predicciones = prediccionRepository
+                    .findByPartido_EstadoPartido(estado);
+        } else {
+            predicciones = prediccionRepository.findAll();
+        }
+
+        return predicciones.stream()
                 .map(prediccionMapper::toDTO)
                 .toList();
     }

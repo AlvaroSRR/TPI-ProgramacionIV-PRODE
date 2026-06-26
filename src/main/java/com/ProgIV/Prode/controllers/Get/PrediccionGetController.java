@@ -7,9 +7,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ProgIV.Prode.features.dtos.response.PrediccionResponseDTO;
+import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.services.interfaces.prediccion.IPrediccionGetService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,9 +26,11 @@ public class PrediccionGetController {
         private final IPrediccionGetService prediccionGetService;
 
         @GetMapping
-        public ResponseEntity<List<PrediccionResponseDTO>> obtenerPredicciones() {
+        public ResponseEntity<List<PrediccionResponseDTO>> listar(
+                        @RequestParam(required = false) EstadoPartido estado) {
+
                 return ResponseEntity.ok(
-                                prediccionGetService.obtenerPredicciones());
+                                prediccionGetService.obtenerPredicciones(estado));
         }
 
         @GetMapping("/usuario/{id}")
