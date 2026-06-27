@@ -5,9 +5,9 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import com.ProgIV.Prode.features.models.Usuario;
 
@@ -17,16 +17,22 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    @Value("${jwt.secret}")
+
+ @Value("${jwt.secret}")
     private String secret;
 
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(Usuario usuario) {
+    private SecretKey getKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
+    //Generamos token
+    public String generateToken(Usuario usuario) {
         return Jwts.builder()
                 .setSubject(usuario.getEmail())
+                .claim("id", usuario.getId())
                 .claim("rol", usuario.getRol().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -34,33 +40,39 @@ public class JwtService {
                 .compact();
     }
 
-    private SecretKey getKey() {
-        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
+    //Parse seguro
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("id", Long.class);
+    }
+
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("rol", String.class);
+    }
+
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        try {
+            String username = extractUsername(token);
+            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        } catch (Exception e) {
+            return false; // evitamos crashes en filter
+        }
     }
 
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        return extractAllClaims(token)
+                .getExpiration()
+                .before(new Date());
     }
-
-    private Claims extractAllClaims(String token) {
-    return Jwts.parserBuilder()
-            .setSigningKey(getKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
-}
-
-private Date extractExpiration(String token) {
-    return extractAllClaims(token).getExpiration();
-}
 }

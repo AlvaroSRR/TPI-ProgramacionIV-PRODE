@@ -3,6 +3,7 @@ package com.ProgIV.Prode.features.services.impl.fecha;
 import org.springframework.stereotype.Service;
 
 import com.ProgIV.Prode.features.dtos.request.FechaCreateRequestDTO;
+import com.ProgIV.Prode.features.models.EstadoFecha;
 import com.ProgIV.Prode.features.models.Fecha;
 import com.ProgIV.Prode.features.repositories.FechaRepository;
 import com.ProgIV.Prode.features.services.interfaces.fecha.IFechaCreateService;
@@ -20,6 +21,7 @@ public class FechaCreateService implements IFechaCreateService {
 
         Fecha fecha = new Fecha();
         fecha.setNombre(dto.getNombre());
+        fecha.setEstado(EstadoFecha.PROGRAMADA);
         fecha.setEliminado(false);
 
         return fechaRepository.save(fecha);
