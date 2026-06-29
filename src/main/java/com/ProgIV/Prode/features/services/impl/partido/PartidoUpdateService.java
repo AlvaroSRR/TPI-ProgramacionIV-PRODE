@@ -6,18 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.ProgIV.Prode.exceptions.equipo.EquipoNoEncontradoException;
 import com.ProgIV.Prode.exceptions.fecha.FechaNoEncontradaException;
+import com.ProgIV.Prode.exceptions.partido.PartidoNoEncontradoException;
+import com.ProgIV.Prode.exceptions.partido.PartidoNoModificableException;
 import com.ProgIV.Prode.features.dtos.request.PartidoUpdateDatosRequestDTO;
-import com.ProgIV.Prode.features.dtos.request.PartidoUpdateRequestDTO;
 import com.ProgIV.Prode.features.models.Equipo;
-import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Fecha;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.repositories.EquipoRepository;
 import com.ProgIV.Prode.features.repositories.FechaRepository;
 import com.ProgIV.Prode.features.repositories.PartidoRepository;
-import com.ProgIV.Prode.features.services.interfaces.fecha.IFechaEstadoUpdateService;
 import com.ProgIV.Prode.features.services.interfaces.partido.IPartidoUpdateService;
-import com.ProgIV.Prode.features.services.interfaces.prediccion.ICalcularPuntosService;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -70,13 +69,12 @@ public class PartidoUpdateService implements IPartidoUpdateService {
     public Partido actualizar(Long id, PartidoUpdateDatosRequestDTO dto) {
 
         Partido partido = partidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Partido no encontrado"));
+                .orElseThrow(() -> new PartidoNoEncontradoException(id));
 
         OffsetDateTime ahora = OffsetDateTime.now();
 
         if (!ahora.isBefore(partido.getHoraInicio().minusMinutes(30))) {
-            throw new RuntimeException(
-                    "No es posible modificar el partido porque faltan menos de 30 minutos para su inicio.");
+            throw new PartidoNoModificableException();
         }
 
         Fecha fecha = fechaRepository.findById(dto.getFechaId())

@@ -5,7 +5,7 @@ import java.util.List;
 import com.ProgIV.Prode.features.dtos.response.GrupoResponseDTO;
 
 public interface IGrupoGetService {
-    List<GrupoResponseDTO> getAll();
+    List<GrupoResponseDTO> getAll(Long usuarioId);
 
     GrupoResponseDTO getById(Long id);
 }

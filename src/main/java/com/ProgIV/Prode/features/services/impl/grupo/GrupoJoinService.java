@@ -23,7 +23,7 @@ public class GrupoJoinService {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Grupo grupo = grupoRepository.findByCodigoInvitacion(codigo)
+        Grupo grupo = grupoRepository.findByCodigoInvitacionAndActivoTrue(codigo)
                 .orElseThrow(() -> new RuntimeException("Código inválido"));
 
         if (usuario.getGrupos().contains(grupo)) {

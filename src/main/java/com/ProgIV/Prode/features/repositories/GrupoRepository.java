@@ -18,6 +18,8 @@ public interface GrupoRepository extends JpaRepository<Grupo, Long> {
 
     Optional<Grupo> findByIdAndActivoTrue(Long id);
 
+    Optional<Grupo> findByCodigoInvitacionAndActivoTrue(String codigoInvitacion);
+
     @Query("SELECT g FROM Grupo g LEFT JOIN FETCH g.usuarios WHERE g.activo = true")
     List<Grupo> findByActivoTrueWithUsuarios();
 

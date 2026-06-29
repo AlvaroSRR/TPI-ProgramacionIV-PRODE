@@ -5,9 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.ProgIV.Prode.features.dtos.request.PartidoUpdateDatosRequestDTO;
-import com.ProgIV.Prode.features.dtos.request.PartidoUpdateRequestDTO;
 import com.ProgIV.Prode.features.dtos.response.PartidoUpdateResponseDTO;
-import com.ProgIV.Prode.features.dtos.response.PartidoResponseDTO;
 import com.ProgIV.Prode.features.models.Partido;
 import com.ProgIV.Prode.features.services.interfaces.partido.IPartidoUpdateService;
 
