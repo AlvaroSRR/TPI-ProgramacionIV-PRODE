@@ -54,9 +54,7 @@ public class PrediccionGetService implements IPrediccionGetService {
     @Override
     public List<PrediccionResponseDTO> obtenerPrediccionesUsuario(Long usuarioId) {
         return prediccionRepository
-                .findByUsuarioIdAndPartido_EstadoPartido(
-                        usuarioId,
-                        EstadoPartido.FINALIZADO)
+                .findByUsuarioId(usuarioId)
                 .stream()
                 .map(prediccionMapper::toDTO)
                 .toList();
@@ -110,7 +108,7 @@ public class PrediccionGetService implements IPrediccionGetService {
     @Override
     public List<PrediccionResponseDTO> obtenerPrediccionesUsuarioYFecha(Long usuarioId, Long fechaId) {
 
-        OffsetDateTime ahora = OffsetDateTime.now(clock);  
+        OffsetDateTime ahora = OffsetDateTime.now(clock);
         return prediccionRepository
                 .findPrediccionesUsuario(usuarioId, fechaId, ahora)
                 .stream()

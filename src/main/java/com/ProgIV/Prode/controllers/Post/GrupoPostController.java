@@ -22,11 +22,12 @@ public class GrupoPostController {
 
     private final IGrupoCreateService grupoCreateService;
 
-    @PostMapping
+    @PostMapping("/usuario/{usuarioId}")
     public ResponseEntity<GrupoResponseDTO> create(
+            @PathVariable Long usuarioId,
             @Valid @RequestBody GrupoCreateRequestDTO dto) {
 
-        GrupoResponseDTO response = grupoCreateService.create(dto);
+        GrupoResponseDTO response = grupoCreateService.create(dto, usuarioId);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

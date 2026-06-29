@@ -23,17 +23,14 @@ public class GrupoGetController {
 
     private final IGrupoGetService grupoGetService;
 
-    @GetMapping
-    public ResponseEntity<List<GrupoResponseDTO>> getAll() {
-        return ResponseEntity.ok(grupoGetService.getAll());
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<GrupoResponseDTO>> getAll(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(grupoGetService.getAll(usuarioId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GrupoResponseDTO> getById(
-            @PathVariable Long id) {
-
-        return ResponseEntity.ok(
-                grupoGetService.getById(id));
+    public ResponseEntity<GrupoResponseDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(grupoGetService.getById(id));
     }
 
 }
