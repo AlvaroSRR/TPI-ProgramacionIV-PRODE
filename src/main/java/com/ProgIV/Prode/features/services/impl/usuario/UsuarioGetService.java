@@ -19,18 +19,18 @@ public class UsuarioGetService {
     private final UsuarioMapper usuarioMapper;
     private final UsuarioFindByIdService usuarioFindByIdService;
 
-    public List<UsuarioResponseDTO> getAll() {
-
-        return usuarioRepository.findByActivoTrue()
+     public List<UsuarioResponseDTO> getAll() {
+ 
+        return usuarioRepository.findAll()
                 .stream()
                 .map(usuarioMapper::toResponseDTO)
                 .toList();
     }
-
+ 
     public UsuarioResponseDTO getById(Long id) {
-
+ 
         Usuario usuario = usuarioFindByIdService.execute(id);
-
+ 
         return usuarioMapper.toResponseDTO(usuario);
     }
 }

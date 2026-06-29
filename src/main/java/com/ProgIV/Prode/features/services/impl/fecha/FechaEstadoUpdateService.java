@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ProgIV.Prode.exceptions.BusinessException;
 import com.ProgIV.Prode.features.models.EstadoFecha;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Fecha;
@@ -24,7 +25,7 @@ public class FechaEstadoUpdateService implements IFechaEstadoUpdateService {
         @Override
         public void iniciarEstadoFecha(Long id) {
                 Fecha fecha = fechaRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+                        .orElseThrow(() -> new BusinessException("Fecha no encontrada"));
 
                 fecha.setEstado(EstadoFecha.EN_JUEGO);
                 fechaRepository.save(fecha);
@@ -43,7 +44,7 @@ public class FechaEstadoUpdateService implements IFechaEstadoUpdateService {
         }
 
         Fecha fecha = fechaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fecha no encontrada"));
+                .orElseThrow(() -> new BusinessException("Fecha no encontrada"));
 
         fecha.setEstado(EstadoFecha.FINALIZADA);
         fechaRepository.save(fecha);

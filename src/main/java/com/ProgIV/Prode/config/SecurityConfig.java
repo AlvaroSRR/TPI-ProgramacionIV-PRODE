@@ -2,6 +2,7 @@ package com.ProgIV.Prode.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
-                // CSRF desactivado (API REST)F
+                // CSRF desactivado (API REST)
                 .csrf(csrf -> csrf.disable())
 
                 // API stateless (JWT)
@@ -48,8 +49,14 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/register").permitAll()
 
-                        // ADMIN
+                        // USER + ADMIN: cada usuario edita su propio perfil
+                        // (la validación de que sea SU id la hace el service)
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/*").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/auth/me").hasAnyRole("USER", "ADMIN")
+
+                        // ADMIN: gestión completa de usuarios (listar, ver por id, crear, eliminar)
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
+
                         .requestMatchers("/partidos/create").hasRole("ADMIN")
                         .requestMatchers("/partidos/delete/**").hasRole("ADMIN")
 

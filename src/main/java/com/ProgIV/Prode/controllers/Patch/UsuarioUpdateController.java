@@ -1,5 +1,6 @@
 package com.ProgIV.Prode.controllers.Patch;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +25,10 @@ public class UsuarioUpdateController {
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> update(
             @PathVariable Long id,
-            @RequestBody UsuarioUpdateRequestDTO dto) {
-
+            @RequestBody UsuarioUpdateRequestDTO dto,
+            Authentication authentication) {
+ 
         return ResponseEntity.ok(
-                usuarioUpdateService.update(id, dto));
+                usuarioUpdateService.update(id, dto, authentication));
     }
 }

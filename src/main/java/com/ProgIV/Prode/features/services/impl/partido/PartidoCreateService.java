@@ -8,6 +8,7 @@ import com.ProgIV.Prode.exceptions.equipo.EquipoNoEncontradoException;
 import com.ProgIV.Prode.exceptions.fecha.FechaNoEncontradaException;
 import com.ProgIV.Prode.features.dtos.request.PartidoCreateRequestDTO;
 import com.ProgIV.Prode.features.models.Equipo;
+import com.ProgIV.Prode.features.models.EstadoFecha;
 import com.ProgIV.Prode.features.models.EstadoPartido;
 import com.ProgIV.Prode.features.models.Fecha;
 import com.ProgIV.Prode.features.models.Partido;
@@ -35,7 +36,11 @@ public class PartidoCreateService implements IPartidoCreateService {
 
         Fecha fecha = fechaRepository.findById(dto.getFechaId())
                 .orElseThrow(() -> new FechaNoEncontradaException(dto.getFechaId()));
-
+        if (fecha.getEstado() != EstadoFecha.PROGRAMADA) {
+            throw new BusinessException(
+                    "Solo se pueden agregar partidos a fechas en estado PROGRAMADA");
+        }
+        
         Equipo local = equipoRepository.findById(dto.getEquipoLocalId())
                 .orElseThrow(() -> new EquipoNoEncontradoException(dto.getEquipoLocalId()));
 

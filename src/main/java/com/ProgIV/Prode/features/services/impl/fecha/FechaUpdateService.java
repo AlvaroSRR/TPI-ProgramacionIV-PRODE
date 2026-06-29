@@ -2,6 +2,7 @@ package com.ProgIV.Prode.features.services.impl.fecha;
 
 import org.springframework.stereotype.Service;
 
+import com.ProgIV.Prode.exceptions.BusinessException;
 import com.ProgIV.Prode.features.models.EstadoFecha;
 import com.ProgIV.Prode.features.models.Fecha;
 import com.ProgIV.Prode.features.repositories.FechaRepository;
@@ -22,15 +23,15 @@ public class FechaUpdateService implements IFechaUpdateService {
 
         Fecha fecha = fechaRepository.findByIdAndEliminadoFalse(id)
                 .orElseThrow(() -> 
-                    new RuntimeException("Fecha no encontrada"));
+                    new BusinessException("Fecha no encontrada"));
 
         if (fecha.getEstado() != EstadoFecha.PROGRAMADA) {
-            throw new RuntimeException(
+            throw new BusinessException(
                 "Solo se pueden modificar fechas PROGRAMADAS");
         }
 
         if (partidoRepository.existsByFechaId(id)) {
-            throw new RuntimeException(
+            throw new BusinessException(
                 "La fecha posee partidos asociados");
         }
 
