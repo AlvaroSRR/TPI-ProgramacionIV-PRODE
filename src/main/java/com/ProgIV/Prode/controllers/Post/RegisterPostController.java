@@ -1,7 +1,6 @@
 package com.ProgIV.Prode.controllers.Post;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 
 public class RegisterPostController {
     private final UsuarioCreateService usuarioCreateService;

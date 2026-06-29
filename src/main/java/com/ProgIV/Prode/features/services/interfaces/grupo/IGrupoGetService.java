@@ -8,4 +8,5 @@ public interface IGrupoGetService {
     List<GrupoResponseDTO> getAll(Long usuarioId);
 
     GrupoResponseDTO getById(Long id);
+    List<GrupoResponseDTO> getAll();
 }

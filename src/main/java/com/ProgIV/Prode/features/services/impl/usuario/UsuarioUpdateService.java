@@ -1,5 +1,7 @@
 package com.ProgIV.Prode.features.services.impl.usuario;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.ProgIV.Prode.features.dtos.request.UsuarioUpdateRequestDTO;
@@ -23,9 +25,19 @@ public class UsuarioUpdateService implements IUsuarioUpdateService {
     @Override
     public UsuarioResponseDTO update(
             Long id,
-            UsuarioUpdateRequestDTO dto) {
+            UsuarioUpdateRequestDTO dto,
+            Authentication authentication) {
 
         Usuario usuario = usuarioFindByIdService.execute(id);
+
+        boolean esAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        boolean esElMismoUsuario = usuario.getEmail().equals(authentication.getName());
+
+        if (!esAdmin && !esElMismoUsuario) {
+            throw new AccessDeniedException("No podés modificar el perfil de otro usuario");
+        }
 
         usuario.setNombreUsuario(dto.getNombreUsuario());
         usuario.setEmail(dto.getEmail());
@@ -34,5 +46,4 @@ public class UsuarioUpdateService implements IUsuarioUpdateService {
 
         return usuarioMapper.toResponseDTO(actualizado);
     }
-    
 }

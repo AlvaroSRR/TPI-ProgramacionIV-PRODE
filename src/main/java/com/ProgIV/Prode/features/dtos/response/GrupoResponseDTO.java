@@ -11,4 +11,5 @@ public class GrupoResponseDTO {
     private String nombre;
     private String codigoInvitacion;
     private Integer cantidadUsuarios;
+    private boolean activo;
 }

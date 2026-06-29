@@ -29,6 +29,7 @@ public class GrupoMapper {
                 .nombre(grupo.getNombre())
                 .codigoInvitacion(grupo.getCodigoInvitacion())
                 .cantidadUsuarios(grupo.getUsuarios().size())
+                .activo(grupo.getActivo())
                 .build();
     }
 }

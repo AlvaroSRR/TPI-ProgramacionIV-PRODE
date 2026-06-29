@@ -28,6 +28,7 @@ public class UsuarioMapper {
                 .email(usuario.getEmail())
                 .rol(usuario.getRol().name())
                 .idGrupoPropio(usuario.getIdGrupoPropio())
+                .activo(usuario.isActivo())
                 .build();
     }
 }

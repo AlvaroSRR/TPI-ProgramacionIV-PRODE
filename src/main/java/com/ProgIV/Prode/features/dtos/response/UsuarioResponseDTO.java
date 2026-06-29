@@ -16,5 +16,6 @@ public class UsuarioResponseDTO {
     private String email;
     private String rol;
     private Long idGrupoPropio;
+    private boolean activo;
 
 }
